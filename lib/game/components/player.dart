@@ -19,15 +19,15 @@ class Player extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     animation = await game.loadSpriteAnimation(
-      'fallout_boy3.png',
-      SpriteAnimationData.sequenced(
-        amount: 1,
-        stepTime: 0.2,
-        textureSize: Vector2.all(300),
-      ),
+      'gym-leader-thumbnail.jpg',
+        SpriteAnimationData.sequenced(
+          amount: 4, // Nombre de frames
+          stepTime: 0.2, // Temps entre les frames
+          textureSize: Vector2(48, 70),
+        ),
     );
 
-    size = Vector2.all(96);
+    size = Vector2.all(40);
     position = gameRef.size / 2;
 
     add(
