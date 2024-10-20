@@ -46,7 +46,7 @@ class _TitleScreenState extends State<TitleScreen> {
               child: ColoredBox(
                 color: Colors.black,
                 child: Image.asset(
-                  'assets/images/fallout_shelter.jpeg',
+                  'assets/images/castle-thorn-solar-eclipse.jpg',
                   fit: BoxFit.cover,
                   repeat: ImageRepeat.repeat,
                   filterQuality: FilterQuality.none,
@@ -62,9 +62,11 @@ class _TitleScreenState extends State<TitleScreen> {
                     Expanded(
                       flex: 6,
                       child: Image.asset(
-                        'assets/images/banner.png',
+                        'assets/images/ready.jpg',
                         fit: BoxFit.contain,
                         filterQuality: FilterQuality.none,
+                        height: 200,
+                        width: 400,
                       ),
                     ),
                     Expanded(
