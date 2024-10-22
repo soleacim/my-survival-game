@@ -9,6 +9,7 @@ class SurvivalGame extends FlameGame
           children: [
             Background(),
             Player(),
+            Gun()
           ],
         );
 

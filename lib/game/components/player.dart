@@ -1,9 +1,9 @@
+import 'dart:developer';
+
 import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'package:first_app_flutter/game/components/components.dart';
-import 'package:first_app_flutter/game/game.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
@@ -13,8 +13,12 @@ class Player extends SpriteAnimationComponent
           anchor: Anchor.center,
         );
 
-  static const _speed = 400.0;
-  static const _sprite_hero = 'gym-leader-thumbnail.jpg';
+  static const _speed = 200.0;
+  static const upLimitX = 1500.0;
+  static const downLimitX = 500.0;
+  static const upLimitY = 750.0;
+  static const downLimitY = 250.0;
+  static const _sprite_hero = 'gym-leader-thumbnail-removebg-preview.png';
   final _direction = Vector2.zero();
 
   @override
@@ -36,10 +40,12 @@ class Player extends SpriteAnimationComponent
       KeyboardListenerComponent(
         keyUp: {
           LogicalKeyboardKey.arrowLeft: (_) {
+            log('arrowLeft !');
             _direction.x = 0;
             return false;
           },
           LogicalKeyboardKey.arrowRight: (_) {
+            log('arrowRight !');
             _direction.x = 0;
             return false;
           },
@@ -51,10 +57,6 @@ class Player extends SpriteAnimationComponent
             _direction.y = 0;
             return false;
           },
-          // LogicalKeyboardKey.space: (_) {
-          //   _shoot();
-          //   return false;
-          // },
         },
         keyDown: {
           LogicalKeyboardKey.arrowLeft: (_) {
@@ -77,7 +79,6 @@ class Player extends SpriteAnimationComponent
             goDown();
             return false;
           },
-          LogicalKeyboardKey.space: (_) => false,
         },
       ),
     );
@@ -108,7 +109,7 @@ class Player extends SpriteAnimationComponent
       _sprite_hero,
       SpriteAnimationData.sequenced(
         amount: 4, // Nombre de frames
-        stepTime: 0.2, // Temps entre les frames
+        stepTime: 0.1, // Temps entre les frames
         textureSize: Vector2(65, 65),
         amountPerRow: 4,
         texturePosition: Vector2(20, line * 65),
@@ -121,6 +122,25 @@ class Player extends SpriteAnimationComponent
   void update(double dt) {
     super.update(dt);
 
-    position += _direction * _speed * dt;
+    var diff = _direction * _speed * dt;
+    var tmp = position + diff;
+
+
+    if(tmp.x > upLimitX) {
+      position.x = upLimitX;
+    } else if(tmp.x < downLimitX){
+      position.x = downLimitX;
+    } else {
+      position.x += diff.x;
+    }
+
+    if(tmp.y > upLimitY){
+      position.y = upLimitY;
+    } else if(tmp.y < downLimitY){
+      position.y = downLimitY;
+    } else {
+      position.y += diff.y;
+    }
+
   }
 }
