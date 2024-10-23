@@ -9,7 +9,8 @@ class SurvivalGame extends FlameGame
           children: [
             Background(),
             Player(),
-            Gun()
+            Gun(Vector2(500,500)),
+            Gun(Vector2(800,500))
           ],
         );
 

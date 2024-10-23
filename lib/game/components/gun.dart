@@ -1,29 +1,37 @@
 
+import 'dart:ui';
+
 import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 
 class Gun extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
   static const _sprite_gun = 'pistolet.png';
+  Vector2 myPosition;
+  Vector2 mySize = Vector2(50, 50);
+
+  Gun(Vector2 position) : myPosition = position;
+
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    // Charger l'image en tant que sprite
-    sprite = await game.loadSprite(_sprite_gun);
+
+    sprite = await Sprite.load(
+      _sprite_gun,
+      srcPosition: myPosition,
+      srcSize: mySize,
+      //images: super.images,
+    );
 
     // Créer un SpriteComponent avec le sprite chargé
     SpriteComponent monSprite = SpriteComponent()
-      ..sprite = sprite
+      ..sprite = await game.loadSprite(_sprite_gun)
       ..size = Vector2(50, 50) // Taille du sprite
-      ..position = Vector2(400, 400); // Position initiale
+      ..position = myPosition; // Position initiale
 
-    // Ajouter le SpriteComponent au jeu
     add(monSprite);
   }
 }
