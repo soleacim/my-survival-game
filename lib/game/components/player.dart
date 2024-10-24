@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:first_app_flutter/game/components/bullet.dart';
 import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
+
+import 'gun.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
@@ -57,6 +60,13 @@ class Player extends SpriteAnimationComponent
             _direction.y = 0;
             return false;
           },
+          LogicalKeyboardKey.space: (_) {
+            if(game.bullets > 0){
+              Bullet(position);
+              game.bullets--;
+            }
+            return false;
+          }
         },
         keyDown: {
           LogicalKeyboardKey.arrowLeft: (_) {
@@ -142,5 +152,15 @@ class Player extends SpriteAnimationComponent
       position.y += diff.y;
     }
 
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    print('Collision détectée avec $other');
+    if(other is Gun){
+      print('add bullets');
+      game.bullets = 50;
+    }
   }
 }

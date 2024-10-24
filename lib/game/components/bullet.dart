@@ -2,10 +2,10 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
 
-class Gun extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
-  static const _spriteGun = 'pistolet.png';
+class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
+  static const _spriteBullet = 'bullet.png';
 
-  Gun(Vector2 position)
+  Bullet(Vector2 position)
       : super(
     position: position,
     size: Vector2(50, 50),
@@ -16,7 +16,7 @@ class Gun extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallba
     super.onLoad();
 
     // Charger le sprite et l'assigner à ce composant
-    sprite = await Sprite.load(_spriteGun);
+    sprite = await Sprite.load(_spriteBullet);
 
     // Ajouter une hitbox ou d'autres configurations si nécessaire
     add(RectangleHitbox.relative(
