@@ -30,7 +30,7 @@ class Gun extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallba
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     super.removeFromParent();
-    print('Collision détectée avec $other');
+   // print('Collision détectée avec $other');
   }
 
   // @override

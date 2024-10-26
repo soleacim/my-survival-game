@@ -8,6 +8,7 @@ class SurvivalGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection {
 
   int bullets = 0;
+  late TextComponent textComponent;
 
   SurvivalGame()
       : super(
@@ -28,7 +29,7 @@ class SurvivalGame extends FlameGame
     final relativeY = screenSize.y - 100;
 
     // Créer le composant de texte
-    final textComponent = TextComponent(
+    textComponent = TextComponent(
       text: 'Bullets : $bullets',
       position: Vector2(relativeX, relativeY), // Position du texte à l'écran
       textRenderer: TextPaint(
@@ -41,6 +42,11 @@ class SurvivalGame extends FlameGame
 
     // Ajouter le texte au jeu
     add(textComponent);
+
+  }
+
+  void updateText() {
+    textComponent.text = 'Bullets : $bullets';
   }
 
   void tookHit() {
@@ -52,4 +58,6 @@ class SurvivalGame extends FlameGame
 
   void increaseScore() {
   }
+
+
 }

@@ -4,12 +4,16 @@ import 'package:first_app_flutter/game/game.dart';
 
 class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
   static const _spriteBullet = 'bullet.png';
+  Vector2 _bulletDirection = Vector2.zero();
 
-  Bullet(Vector2 position)
-      : super(
-    position: position,
-    size: Vector2(50, 50),
-  );
+  Bullet(Vector2 positionOrigin, Vector2 directionOrigin)
+      :
+        _bulletDirection = Vector2(directionOrigin.x, directionOrigin.y),
+        super(
+        position: positionOrigin,
+        size: Vector2(20, 20),
+      )
+  ;
 
   @override
   Future<void> onLoad() async {
@@ -30,7 +34,14 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     super.removeFromParent();
-    print('Collision détectée avec $other');
+    //print('Collision détectée avec $other');
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    // Mise à jour de la position de l'objet en fonction de sa vélocité
+    position += _bulletDirection * 10;
   }
 
   // @override

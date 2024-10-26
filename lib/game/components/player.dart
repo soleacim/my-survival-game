@@ -23,6 +23,7 @@ class Player extends SpriteAnimationComponent
   static const downLimitY = 250.0;
   static const _sprite_hero = 'gym-leader-thumbnail-removebg-preview.png';
   final _direction = Vector2.zero();
+  Vector2 lastDirection = Vector2.zero();
 
   @override
   Future<void> onLoad() async {
@@ -62,8 +63,17 @@ class Player extends SpriteAnimationComponent
           },
           LogicalKeyboardKey.space: (_) {
             if(game.bullets > 0){
-              Bullet(position);
-              game.bullets--;
+              var maposition = position + getBulletStart(getBulletDirection(_direction, lastDirection)) * 10;
+              var madirection = getBulletDirection(_direction, lastDirection);
+              print('new Bullet { position : $maposition, direction : $madirection }');
+              gameRef.add(
+                  Bullet(
+                      position + getBulletStart(getBulletDirection(_direction, lastDirection)) * 10,
+                      getBulletDirection(_direction, lastDirection)
+                  )
+              );
+              gameRef.bullets--;
+              gameRef.updateText();
             }
             return false;
           }
@@ -71,21 +81,25 @@ class Player extends SpriteAnimationComponent
         keyDown: {
           LogicalKeyboardKey.arrowLeft: (_) {
             _direction.x = -1;
+            lastDirection = Vector2(-1, 0);
             goLeft();
             return false;
           },
           LogicalKeyboardKey.arrowRight: (_) {
             _direction.x = 1;
+            lastDirection = Vector2(1, 0);
             goRight();
             return false;
           },
           LogicalKeyboardKey.arrowUp: (_) {
             _direction.y = -1;
+            lastDirection = Vector2(0, -1);
             goUp();
             return false;
           },
           LogicalKeyboardKey.arrowDown: (_) {
             _direction.y = 1;
+            lastDirection = Vector2(0, 1);
             goDown();
             return false;
           },
@@ -135,7 +149,6 @@ class Player extends SpriteAnimationComponent
     var diff = _direction * _speed * dt;
     var tmp = position + diff;
 
-
     if(tmp.x > upLimitX) {
       position.x = upLimitX;
     } else if(tmp.x < downLimitX){
@@ -151,16 +164,24 @@ class Player extends SpriteAnimationComponent
     } else {
       position.y += diff.y;
     }
-
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    print('Collision détectée avec $other');
+    //print('Collision détectée avec $other');
     if(other is Gun){
-      print('add bullets');
-      game.bullets = 50;
+      gameRef.bullets = 50;
+      gameRef.updateText();
     }
   }
+
+  Vector2 getBulletDirection(Vector2 direction, Vector2 lastDirection) {
+    return direction == Vector2.zero() ? lastDirection : direction;
+  }
+
+  Vector2 getBulletStart(Vector2 direction) {
+    return Vector2(direction.x * 40, direction.y * 40);
+  }
+
 }
