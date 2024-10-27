@@ -5,7 +5,7 @@ import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:math' as math;
 import 'gun.dart';
 
 class Player extends SpriteAnimationComponent
@@ -16,7 +16,7 @@ class Player extends SpriteAnimationComponent
           anchor: Anchor.center,
         );
 
-  static const _speed = 200.0;
+  static const _speed = 100.0;
   static const upLimitX = 1500.0;
   static const downLimitX = 500.0;
   static const upLimitY = 750.0;
@@ -24,6 +24,7 @@ class Player extends SpriteAnimationComponent
   static const _sprite_hero = 'gym-leader-thumbnail-removebg-preview.png';
   final _direction = Vector2.zero();
   Vector2 lastDirection = Vector2.zero();
+  double bulletAngle = 0;
 
   @override
   Future<void> onLoad() async {
@@ -63,13 +64,11 @@ class Player extends SpriteAnimationComponent
           },
           LogicalKeyboardKey.space: (_) {
             if(game.bullets > 0){
-              var maposition = position + getBulletStart(getBulletDirection(_direction, lastDirection)) * 10;
-              var madirection = getBulletDirection(_direction, lastDirection);
-              print('new Bullet { position : $maposition, direction : $madirection }');
               gameRef.add(
                   Bullet(
-                      position + getBulletStart(getBulletDirection(_direction, lastDirection)) * 10,
-                      getBulletDirection(_direction, lastDirection)
+                      position + getBulletStart(getBulletDirection(_direction, lastDirection)),
+                      getBulletDirection(_direction, lastDirection),
+                      bulletAngle
                   )
               );
               gameRef.bullets--;
@@ -82,24 +81,28 @@ class Player extends SpriteAnimationComponent
           LogicalKeyboardKey.arrowLeft: (_) {
             _direction.x = -1;
             lastDirection = Vector2(-1, 0);
+            bulletAngle = 3 * math.pi / 2;
             goLeft();
             return false;
           },
           LogicalKeyboardKey.arrowRight: (_) {
             _direction.x = 1;
             lastDirection = Vector2(1, 0);
+            bulletAngle = math.pi / 2;
             goRight();
             return false;
           },
           LogicalKeyboardKey.arrowUp: (_) {
             _direction.y = -1;
             lastDirection = Vector2(0, -1);
+            bulletAngle = 0;
             goUp();
             return false;
           },
           LogicalKeyboardKey.arrowDown: (_) {
             _direction.y = 1;
             lastDirection = Vector2(0, 1);
+            bulletAngle = math.pi;
             goDown();
             return false;
           },
@@ -181,7 +184,7 @@ class Player extends SpriteAnimationComponent
   }
 
   Vector2 getBulletStart(Vector2 direction) {
-    return Vector2(direction.x * 40, direction.y * 40);
+    return Vector2(direction.x * 30, direction.y * 20);
   }
 
 }

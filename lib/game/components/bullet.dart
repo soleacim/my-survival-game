@@ -6,10 +6,11 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   static const _spriteBullet = 'bullet.png';
   Vector2 _bulletDirection = Vector2.zero();
 
-  Bullet(Vector2 positionOrigin, Vector2 directionOrigin)
+  Bullet(Vector2 positionOrigin, Vector2 directionOrigin, double angleOrigin)
       :
         _bulletDirection = Vector2(directionOrigin.x, directionOrigin.y),
         super(
+        angle: angleOrigin,
         position: positionOrigin,
         size: Vector2(20, 20),
       )
