@@ -45,12 +45,10 @@ class Player extends SpriteAnimationComponent
       KeyboardListenerComponent(
         keyUp: {
           LogicalKeyboardKey.arrowLeft: (_) {
-            log('arrowLeft !');
             _direction.x = 0;
             return false;
           },
           LogicalKeyboardKey.arrowRight: (_) {
-            log('arrowRight !');
             _direction.x = 0;
             return false;
           },
@@ -112,23 +110,19 @@ class Player extends SpriteAnimationComponent
   }
 
   Future<void> goDown() async {
-    var line = 0;
-    await loadLineFromSprite(line);
+    await loadLineFromSprite(0);
   }
 
   Future<void> goLeft() async {
-    var line = 1;
-    await loadLineFromSprite(line);
+    await loadLineFromSprite(1);
   }
 
   Future<void> goRight() async {
-    var line = 2;
-    await loadLineFromSprite(line);
+    await loadLineFromSprite(2);
   }
 
   Future<void> goUp() async {
-    var line = 3;
-    await loadLineFromSprite(line);
+    await loadLineFromSprite(3);
   }
 
   Future<void> loadLineFromSprite(int line) async {

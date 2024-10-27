@@ -1,4 +1,5 @@
 import 'package:first_app_flutter/game/components/components.dart';
+import 'package:first_app_flutter/game/components/zombie.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -16,7 +17,8 @@ class SurvivalGame extends FlameGame
             Background(),
             Player(),
             Gun(Vector2(500,500)),
-            Gun(Vector2(800,500))
+            Gun(Vector2(800,500)),
+            Zombie(Anchor.bottomLeft)
           ],
         );
 
