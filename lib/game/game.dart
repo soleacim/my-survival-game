@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:first_app_flutter/game/components/components.dart';
 import 'package:first_app_flutter/game/components/zombie.dart';
 import 'package:flame/components.dart';
@@ -9,16 +11,18 @@ class SurvivalGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection {
 
   int bullets = 0;
-  late TextComponent textComponent;
+  int score = 0;
+  int wave = 1;
+  late TextComponent infoComponent;
+  bool endOfGame = false;
+  Vector2 playerPosition = Vector2.zero();
 
   SurvivalGame()
       : super(
           children: [
             Background(),
-            Player(),
             Gun(Vector2(500,500)),
             Gun(Vector2(800,500)),
-            Zombie(Anchor.bottomLeft)
           ],
         );
 
@@ -26,14 +30,34 @@ class SurvivalGame extends FlameGame
   Future<void> onLoad() async {
     super.onLoad();
 
+    add(Player(size / 2));
+
     final screenSize = size;
-    final relativeX = 300.0; // 50% de la largeur de l'écran
+    final relativeX = 300.0; //TODO : position relative?
     final relativeY = screenSize.y - 100;
 
-    // Créer le composant de texte
-    textComponent = TextComponent(
-      text: 'Bullets : $bullets',
-      position: Vector2(relativeX, relativeY), // Position du texte à l'écran
+    createInfoComponent(relativeX, relativeY);
+
+    createWave();
+
+    // add Text Component
+    add(infoComponent);
+    
+  }
+
+  void createWave() {
+    for(int i = 0; i < wave; i++){
+      double x = Random().nextDouble() * 200;
+      double y = Random().nextDouble() * 200;
+      add(Zombie(Vector2(computeStartX(x), computeStartY(y))));
+    }
+    wave++;
+  }
+
+  void createInfoComponent(double relativeX, double relativeY) {
+    infoComponent = TextComponent(
+      text: 'Bullets : $bullets, Score : $score',
+      position: Vector2(relativeX, relativeY),
       textRenderer: TextPaint(
         style: TextStyle(
           color: Colors.white,
@@ -41,25 +65,44 @@ class SurvivalGame extends FlameGame
         ),
       ),
     );
-
-    // Ajouter le texte au jeu
-    add(textComponent);
-
   }
 
   void updateText() {
-    textComponent.text = 'Bullets : $bullets';
+    infoComponent.text = 'Bullets : $bullets, Score : $score';
   }
 
-  void tookHit() {
+  void showPopup() {
+    overlays.add('GameOver');
   }
 
-  void restartGame() {
-    add(Player());
+  void hidePopup() {
+    overlays.remove('GameOver');
   }
 
-  void increaseScore() {
+  void finishGame() {
+    showPopup();
+    pauseEngine();
   }
 
+  void restart() {
+    overlays.remove('GameOver');
+    resumeEngine();
+  }
+
+  double computeStartX(double value) {
+    if(value < 100.0){
+      return value + 100;
+    } else {
+      return size.x - value;
+    }
+  }
+
+  double computeStartY(double value) {
+    if(value < 100.0){
+      return value + 100;
+    } else {
+      return size.y - value;
+    }
+  }
 
 }

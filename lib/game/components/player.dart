@@ -11,8 +11,9 @@ import 'gun.dart';
 class Player extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
-  Player()
+  Player(Vector2 myposition)
       : super(
+          position: myposition,
           anchor: Anchor.center,
         );
 
@@ -32,7 +33,6 @@ class Player extends SpriteAnimationComponent
     await goDown();
 
     size = Vector2.all(40);
-    position = gameRef.size / 2;
 
     add(
       RectangleHitbox.relative(
@@ -161,6 +161,8 @@ class Player extends SpriteAnimationComponent
     } else {
       position.y += diff.y;
     }
+
+    gameRef.playerPosition = position;
   }
 
   @override

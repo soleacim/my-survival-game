@@ -2,6 +2,8 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:first_app_flutter/game/game.dart';
 
+import 'components/game_over_overlay.dart';
+
 class GamePage extends StatelessWidget {
   const GamePage({super.key});
 
@@ -13,8 +15,14 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GameWidget.controlled(
+    return GameWidget<SurvivalGame>.controlled(
       gameFactory: SurvivalGame.new,
+
+      overlayBuilderMap: {
+        'GameOver': (context, game) {
+          return GameOverOverlay(game: game);
+        },
+      },
     );
   }
 }
