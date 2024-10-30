@@ -46,10 +46,11 @@ class SurvivalGame extends FlameGame
   }
 
   void createWave() {
+    print('launch wave!');
     for(int i = 0; i < wave; i++){
       double x = Random().nextDouble() * 200;
       double y = Random().nextDouble() * 200;
-      add(Zombie(Vector2(computeStartX(x), computeStartY(y))));
+      add(Zombie("leZombie", Vector2(computeStartX(x), computeStartY(y))));
     }
     wave++;
   }
@@ -103,6 +104,22 @@ class SurvivalGame extends FlameGame
     } else {
       return size.y - value;
     }
+  }
+
+  void evalNextWave(){
+    if(!hasZombie()){
+      createWave();
+    }
+  }
+
+  bool hasZombie(){
+    for(Component component in children){
+      if(component is Zombie && !component.isReallyDead){
+        return true;
+      }
+    }
+    print('No have Zombie into the game');
+    return false;
   }
 
 }

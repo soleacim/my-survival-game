@@ -7,10 +7,12 @@ import 'package:flame/components.dart';
 class Zombie extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
+  bool isReallyDead = false;
+  String name;
 
-
-  Zombie(Vector2 originalPosition)
-      : super(
+  Zombie(String myName, Vector2 originalPosition)
+      : name = myName,
+        super(
           position: originalPosition
         );
 
@@ -73,8 +75,11 @@ class Zombie extends SpriteAnimationComponent
     print('Collision détectée avec $other');
     if(other is Bullet){
       super.removeFromParent();
+      isReallyDead = true;
       gameRef.score++;
       gameRef.updateText();
+      gameRef.evalNextWave();
+      return;
     }
     if(other is Player){
       gameRef.finishGame();
