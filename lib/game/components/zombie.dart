@@ -17,7 +17,7 @@ class Zombie extends SpriteAnimationComponent
         );
 
   static const _speed = 50.0;
-  static const _spriteZombie = 'gym-leader-thumbnail-removebg-preview.png';
+  static const _spriteZombie = 'zombie.png';
   Vector2 _direction = Vector2(0, 0);
 
   @override
@@ -30,7 +30,7 @@ class Zombie extends SpriteAnimationComponent
     } catch (e) {
       print("Erreur lors du chargement de l'animation : $e");
     }
-    debugMode = true;
+    //debugMode = true;
     add(
       RectangleHitbox.relative(
         Vector2(1, 1),
@@ -45,9 +45,9 @@ class Zombie extends SpriteAnimationComponent
       SpriteAnimationData.sequenced(
           amount: 4, // Nombre de frames
           stepTime: 0.1, // Temps entre les frames
-          textureSize: Vector2(65, 65),
+          textureSize: Vector2(60, 60),
           amountPerRow: 4,
-          texturePosition: Vector2(20, line * 65),
+          texturePosition: Vector2(0, line * 50 + 20),
           loop: false
       ),
     );

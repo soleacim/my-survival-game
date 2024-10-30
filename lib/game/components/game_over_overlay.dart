@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:first_app_flutter/game/game.dart';
+import 'package:flutter/material.dart';
 
 class GameOverOverlay extends StatelessWidget {
   SurvivalGame game;
@@ -15,13 +15,13 @@ class GameOverOverlay extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              game.restart();
+              Navigator.of(context).pop();
             },
             child: const Text('Réessayer'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              game.detach();
             },
             child: const Text('Quitter'),
           ),

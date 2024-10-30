@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:first_app_flutter/game/components/components.dart';
-import 'package:first_app_flutter/game/components/zombie.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 class SurvivalGame extends FlameGame
@@ -42,7 +42,15 @@ class SurvivalGame extends FlameGame
 
     // add Text Component
     add(infoComponent);
+
+    await manageAudio();
     
+  }
+
+  Future<void> manageAudio() async {
+    FlameAudio.bgm.initialize();
+    await FlameAudio.audioCache.load('music.ogg');
+    FlameAudio.bgm.play('music.ogg', volume: 0.5);
   }
 
   void createWave() {
@@ -52,7 +60,7 @@ class SurvivalGame extends FlameGame
       double y = Random().nextDouble() * 200;
       add(Zombie("leZombie", Vector2(computeStartX(x), computeStartY(y))));
     }
-    wave++;
+    wave = wave * 2;
   }
 
   void createInfoComponent(double relativeX, double relativeY) {
@@ -83,6 +91,7 @@ class SurvivalGame extends FlameGame
   void finishGame() {
     showPopup();
     pauseEngine();
+    FlameAudio.bgm.stop();
   }
 
   void restart() {

@@ -23,7 +23,7 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
     // Charger le sprite et l'assigner à ce composant
     sprite = await Sprite.load(_spriteBullet);
 
-    debugMode = true;
+    //debugMode = true;
     // Ajouter une hitbox ou d'autres configurations si nécessaire
     add(RectangleHitbox.relative(
       Vector2(0.5, 0.3),

@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/game/components/player.dart';
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
@@ -29,13 +30,9 @@ class Gun extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallba
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    super.removeFromParent();
-   // print('Collision détectée avec $other');
+    if(other is Player){
+      super.removeFromParent();
+    }
   }
 
-  // @override
-  // void onCollisionEnd(PositionComponent other) {
-  //   super.onCollisionEnd(other);
-  //   print('Fin de la collision avec $other');
-  // }
 }
