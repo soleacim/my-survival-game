@@ -58,7 +58,7 @@ class SurvivalGame extends FlameGame
     for(int i = 0; i < wave; i++){
       double x = Random().nextDouble() * 200;
       double y = Random().nextDouble() * 200;
-      add(Zombie("leZombie", Vector2(computeStartX(x), computeStartY(y))));
+      add(Robot("leZombie", Vector2(computeStartX(x), computeStartY(y))));
     }
     wave = wave * 2;
   }
@@ -116,18 +116,18 @@ class SurvivalGame extends FlameGame
   }
 
   void evalNextWave(){
-    if(!hasZombie()){
+    if(!hasRobot()){
       createWave();
     }
   }
 
-  bool hasZombie(){
+  bool hasRobot(){
     for(Component component in children){
-      if(component is Zombie && !component.isReallyDead){
+      if(component is Robot && !component.isReallyDead){
         return true;
       }
     }
-    print('No have Zombie into the game');
+    print('No have Enemy into the game');
     return false;
   }
 

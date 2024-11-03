@@ -4,20 +4,20 @@ import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class Zombie extends SpriteAnimationComponent
+class Robot extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
   bool isReallyDead = false;
   String name;
 
-  Zombie(String myName, Vector2 originalPosition)
+  Robot(String myName, Vector2 originalPosition)
       : name = myName,
         super(
           position: originalPosition
         );
 
   static const _speed = 50.0;
-  static const _spriteZombie = 'zombie.png';
+  static const _spriteMecha = 'mecha2.png';
   Vector2 _direction = Vector2(0, 0);
 
   @override
@@ -26,28 +26,44 @@ class Zombie extends SpriteAnimationComponent
     try {
       loadLineFromSprite(0);
 
-      size = Vector2.all(40);
+      size = Vector2.all(70);
     } catch (e) {
       print("Erreur lors du chargement de l'animation : $e");
     }
     //debugMode = true;
     add(
       RectangleHitbox.relative(
-        Vector2(1, 1),
+        Vector2(0.5, 0.5),
         parentSize: size,
       ),
     );
   }
 
+  Future<void> goDown() async {
+    await loadLineFromSprite(0);
+  }
+
+  Future<void> goLeft() async {
+    await loadLineFromSprite(1);
+  }
+
+  Future<void> goRight() async {
+    await loadLineFromSprite(2);
+  }
+
+  Future<void> goUp() async {
+    await loadLineFromSprite(3);
+  }
+
   Future<void> loadLineFromSprite(int line) async {
     animation = await game.loadSpriteAnimation(
-      _spriteZombie,
+      _spriteMecha,
       SpriteAnimationData.sequenced(
           amount: 4, // Nombre de frames
           stepTime: 0.1, // Temps entre les frames
-          textureSize: Vector2(60, 60),
+          textureSize: Vector2(65, 65),
           amountPerRow: 4,
-          texturePosition: Vector2(0, line * 50 + 20),
+          texturePosition: Vector2(0, line * 65),
           loop: false
       ),
     );
@@ -89,14 +105,18 @@ class Zombie extends SpriteAnimationComponent
   Vector2 convertToDirection(Vector2 diff) {
     if (diff.x.abs() > diff.y.abs() ){
       if(diff.x > 0){
+        goLeft();
         return Vector2(-1, 0);
       }else{
+        goRight();
         return Vector2(1, 0);
       }
     }else{
       if(diff.y > 0){
+        goUp();
         return Vector2(0, -1);
       }else{
+        goDown();
         return Vector2(0, 1);
       }
     }
