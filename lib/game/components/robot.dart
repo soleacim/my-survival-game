@@ -4,14 +4,18 @@ import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
+import 'blood.dart';
+
 class Robot extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
   bool isReallyDead = false;
+  bool isfocus = false;
   String name;
 
   Robot(String myName, Vector2 originalPosition)
       : name = myName,
+        isfocus = true,
         super(
           position: originalPosition
         );
@@ -26,6 +30,7 @@ class Robot extends SpriteAnimationComponent
     try {
       loadLineFromSprite(0);
 
+      debugMode = true;
       size = Vector2.all(70);
     } catch (e) {
       print("Erreur lors du chargement de l'animation : $e");
@@ -33,7 +38,7 @@ class Robot extends SpriteAnimationComponent
     //debugMode = true;
     add(
       RectangleHitbox.relative(
-        Vector2(0.5, 0.5),
+        Vector2(0.6, 0.6),
         parentSize: size,
       ),
     );
@@ -75,10 +80,13 @@ class Robot extends SpriteAnimationComponent
       return;
     }
     super.update(dt);
-    _direction = computeDirection(position, gameRef.playerPosition);
-    var diff = _direction * _speed * dt;
-    position.x += diff.x;
-    position.y += diff.y;
+
+    if(isfocus){
+      _direction = computeDirection(position, (gameRef.playerPosition + Vector2(-60, -60)));
+      var diff = _direction * _speed * dt;
+      position.x += diff.x;
+      position.y += diff.y;
+    }
   }
 
   Vector2 computeDirection(Vector2 position, Vector2 playerPosition) {
@@ -89,6 +97,7 @@ class Robot extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     print('Collision détectée avec $other');
+
     if(other is Bullet){
       super.removeFromParent();
       isReallyDead = true;
@@ -97,9 +106,17 @@ class Robot extends SpriteAnimationComponent
       gameRef.evalNextWave();
       return;
     }
+
     if(other is Player){
-      gameRef.finishGame();
+      isfocus = false;
+      gameRef.finishGame(other.position);
     }
+  }
+
+  void showBlood(Vector2 lastPosition) {
+    Blood endBloood = Blood(lastPosition);
+    endBloood.onLoad();
+    gameRef.add(endBloood);
   }
 
   Vector2 convertToDirection(Vector2 diff) {

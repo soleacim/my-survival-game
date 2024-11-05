@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:first_app_flutter/game/components/bullet.dart';
+import 'package:first_app_flutter/game/components/components.dart';
 import 'package:first_app_flutter/game/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -30,13 +31,14 @@ class Player extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
 
+    debugMode = true;
     await goDown();
 
     size = Vector2.all(40);
 
     add(
       RectangleHitbox.relative(
-        Vector2(0.8, 0.8),
+        Vector2(1, 1),
         parentSize: size,
       ),
     );
@@ -172,6 +174,8 @@ class Player extends SpriteAnimationComponent
     if(other is Gun){
       gameRef.bullets = 50;
       gameRef.updateText();
+    } else if (other is Robot){
+      animation = null;
     }
   }
 

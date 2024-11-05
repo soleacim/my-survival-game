@@ -14,6 +14,7 @@ class SurvivalGame extends FlameGame
   int score = 0;
   int wave = 1;
   late TextComponent infoComponent;
+  bool hasBlood = false;
   bool endOfGame = false;
   Vector2 playerPosition = Vector2.zero();
 
@@ -88,12 +89,6 @@ class SurvivalGame extends FlameGame
     overlays.remove('GameOver');
   }
 
-  void finishGame() {
-    showPopup();
-    pauseEngine();
-    FlameAudio.bgm.stop();
-  }
-
   void restart() {
     overlays.remove('GameOver');
     resumeEngine();
@@ -129,6 +124,20 @@ class SurvivalGame extends FlameGame
     }
     print('No have Enemy into the game');
     return false;
+  }
+
+  void finishGame(Vector2 lastPosition) async {
+    await showBlood(lastPosition);
+    showPopup();
+    FlameAudio.bgm.stop();
+    pauseEngine();
+  }
+
+  Future<void> showBlood(Vector2 lastPosition) async {
+    Blood endBloood = Blood(lastPosition);
+    endBloood.onLoad();
+    add(endBloood);
+    return Future.delayed(const Duration(seconds: 1));
   }
 
 }

@@ -46,7 +46,7 @@ class _TitleScreenState extends State<TitleScreen> {
               child: ColoredBox(
                 color: Colors.black,
                 child: Image.asset(
-                  'assets/images/castle-thorn-solar-eclipse.jpg',
+                  'assets/images/zombie_wallpaper.jpg',
                   fit: BoxFit.cover,
                   repeat: ImageRepeat.repeat,
                   filterQuality: FilterQuality.none,
