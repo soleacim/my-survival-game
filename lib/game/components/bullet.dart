@@ -1,3 +1,4 @@
+import 'package:first_app_flutter/game/components/robot.dart';
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
@@ -35,8 +36,9 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    super.removeFromParent();
-    //print('Collision détectée avec $other');
+    if (other is Robot){
+      super.removeFromParent();
+    }
   }
 
   @override
