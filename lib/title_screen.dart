@@ -1,3 +1,4 @@
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:first_app_flutter/game/game_page.dart';
@@ -23,6 +24,14 @@ class _TitleScreenState extends State<TitleScreen> {
     super.initState();
 
     _focusNode.requestFocus();
+
+    manageAudio();
+  }
+
+  Future<void> manageAudio() async {
+    FlameAudio.bgm.initialize();
+    await FlameAudio.audioCache.load('music.ogg');
+    FlameAudio.bgm.play('music.ogg', volume: 0.5);
   }
 
   @override

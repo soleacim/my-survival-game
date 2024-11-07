@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:first_app_flutter/game/components/components.dart';
+import 'package:first_app_flutter/game/utils/AudioManager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -44,14 +45,7 @@ class SurvivalGame extends FlameGame
     // add Text Component
     add(infoComponent);
 
-    await manageAudio();
-    
-  }
-
-  Future<void> manageAudio() async {
-    FlameAudio.bgm.initialize();
-    await FlameAudio.audioCache.load('music.ogg');
-    FlameAudio.bgm.play('music.ogg', volume: 0.5);
+    AudioManager().preloadSounds();
   }
 
   void createWave() {

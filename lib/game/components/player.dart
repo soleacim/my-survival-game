@@ -31,7 +31,6 @@ class Player extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
 
-    debugMode = true;
     await goDown();
 
     size = Vector2.all(40);

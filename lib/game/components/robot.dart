@@ -1,8 +1,10 @@
 import 'package:first_app_flutter/game/components/bullet.dart';
 import 'package:first_app_flutter/game/components/player.dart';
 import 'package:first_app_flutter/game/game.dart';
+import 'package:first_app_flutter/game/utils/AudioManager.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import 'blood.dart';
 
@@ -30,12 +32,13 @@ class Robot extends SpriteAnimationComponent
     try {
       loadLineFromSprite(0);
 
-      debugMode = true;
+      AudioManager().playZombieSound();
+
       size = Vector2.all(70);
     } catch (e) {
       print("Erreur lors du chargement de l'animation : $e");
     }
-    //debugMode = true;
+
     add(
       RectangleHitbox.relative(
         Vector2(0.6, 0.6),
@@ -100,6 +103,9 @@ class Robot extends SpriteAnimationComponent
 
     if(other is Bullet){
       super.removeFromParent();
+
+      AudioManager().playExplosedSound();
+
       isReallyDead = true;
       gameRef.score++;
       gameRef.updateText();

@@ -1,7 +1,9 @@
 import 'package:first_app_flutter/game/components/robot.dart';
+import 'package:first_app_flutter/game/utils/AudioManager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
   static const _spriteBullet = 'bullet.png';
@@ -24,10 +26,12 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
     // Charger le sprite et l'assigner à ce composant
     sprite = await Sprite.load(_spriteBullet);
 
+    AudioManager().playPanSound();
+
     //debugMode = true;
     // Ajouter une hitbox ou d'autres configurations si nécessaire
     add(RectangleHitbox.relative(
-      Vector2(0.5, 0.3),
+      Vector2(0.7, 0.5),
       parentSize: size,
     )
       ..collisionType = CollisionType.active);
