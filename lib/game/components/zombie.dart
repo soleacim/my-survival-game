@@ -2,37 +2,38 @@ import 'package:first_app_flutter/game/components/bullet.dart';
 import 'package:first_app_flutter/game/components/player.dart';
 import 'package:first_app_flutter/game/game.dart';
 import 'package:first_app_flutter/game/utils/AudioManager.dart';
+import 'package:first_app_flutter/game/utils/zombie_sprite_preloader.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 import 'blood.dart';
 
-class Robot extends SpriteAnimationComponent
+class Zombie extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
   bool isReallyDead = false;
   bool isfocus = false;
   String name;
+  ZombieSpritePreloader mySpriteLoaded;
 
-  Robot(String myName, Vector2 originalPosition)
+  Zombie(String myName, Vector2 originalPosition, ZombieSpritePreloader mySpriteLoadedOriginal)
       : name = myName,
         isfocus = true,
+        mySpriteLoaded = mySpriteLoadedOriginal,
         super(
           position: originalPosition
         );
 
   static const _speed = 50.0;
-  static const _spriteMecha = 'mecha2.png';
   Vector2 _direction = Vector2(0, 0);
 
   @override
   Future<void> onLoad() async {
 
     try {
-      loadLineFromSprite(0);
 
       AudioManager().playZombieSound();
+      animation = mySpriteLoaded.getAnimationForLine(0);
 
       size = Vector2.all(70);
     } catch (e) {
@@ -48,34 +49,22 @@ class Robot extends SpriteAnimationComponent
   }
 
   Future<void> goDown() async {
-    await loadLineFromSprite(0);
+    animation = mySpriteLoaded.getAnimationForLine(0);
   }
 
   Future<void> goLeft() async {
-    await loadLineFromSprite(1);
+    animation = mySpriteLoaded.getAnimationForLine(1);
   }
 
   Future<void> goRight() async {
-    await loadLineFromSprite(2);
+    animation = mySpriteLoaded.getAnimationForLine(2);
   }
 
   Future<void> goUp() async {
-    await loadLineFromSprite(3);
+    animation = mySpriteLoaded.getAnimationForLine(3);
   }
 
-  Future<void> loadLineFromSprite(int line) async {
-    animation = await game.loadSpriteAnimation(
-      _spriteMecha,
-      SpriteAnimationData.sequenced(
-          amount: 4, // Nombre de frames
-          stepTime: 0.1, // Temps entre les frames
-          textureSize: Vector2(65, 65),
-          amountPerRow: 4,
-          texturePosition: Vector2(0, line * 65),
-          loop: false
-      ),
-    );
-  }
+
 
   @override
   void update(double dt) {
@@ -109,7 +98,7 @@ class Robot extends SpriteAnimationComponent
       isReallyDead = true;
       gameRef.score++;
       gameRef.updateText();
-      gameRef.evalNextWave();
+      gameRef.evalNextWave(mySpriteLoaded);
       return;
     }
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:first_app_flutter/game/components/bullet.dart';
 import 'package:first_app_flutter/game/components/components.dart';
 import 'package:first_app_flutter/game/game.dart';
+import 'package:first_app_flutter/game/utils/heroes_sprite_preloader.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
@@ -12,8 +13,11 @@ import 'gun.dart';
 class Player extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
-  Player(Vector2 myposition)
-      : super(
+  HeroesSpritePreloader heroesSpritePreloader;
+
+  Player(Vector2 myposition, HeroesSpritePreloader heroesSpritePreloaderOrigin)
+      : heroesSpritePreloader = heroesSpritePreloaderOrigin,
+        super(
           position: myposition,
           anchor: Anchor.center,
         );
@@ -23,7 +27,6 @@ class Player extends SpriteAnimationComponent
   static const downLimitX = 500.0;
   static const upLimitY = 750.0;
   static const downLimitY = 250.0;
-  static const _sprite_hero = 'gym-leader-thumbnail-removebg-preview.png';
   final _direction = Vector2.zero();
   Vector2 lastDirection = Vector2.zero();
   double bulletAngle = 0;
@@ -31,7 +34,7 @@ class Player extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
 
-    await goDown();
+    goDown();
 
     size = Vector2.all(40);
 
@@ -110,35 +113,22 @@ class Player extends SpriteAnimationComponent
     );
   }
 
-  Future<void> goDown() async {
-    await loadLineFromSprite(0);
+  void goDown() {
+    animation = heroesSpritePreloader.getAnimationForLine(0);
   }
 
-  Future<void> goLeft() async {
-    await loadLineFromSprite(1);
+  void goLeft() {
+    animation = heroesSpritePreloader.getAnimationForLine(1);
   }
 
-  Future<void> goRight() async {
-    await loadLineFromSprite(2);
+  void goRight() {
+    animation = heroesSpritePreloader.getAnimationForLine(2);
   }
 
-  Future<void> goUp() async {
-    await loadLineFromSprite(3);
+  void goUp() {
+    animation = heroesSpritePreloader.getAnimationForLine(3);
   }
 
-  Future<void> loadLineFromSprite(int line) async {
-    animation = await game.loadSpriteAnimation(
-      _sprite_hero,
-      SpriteAnimationData.sequenced(
-        amount: 4, // Nombre de frames
-        stepTime: 0.1, // Temps entre les frames
-        textureSize: Vector2(65, 65),
-        amountPerRow: 4,
-        texturePosition: Vector2(20, line * 65),
-        loop: false
-      ),
-    );
-  }
 
   @override
   void update(double dt) {
@@ -173,7 +163,7 @@ class Player extends SpriteAnimationComponent
     if(other is Gun){
       gameRef.bullets = 50;
       gameRef.updateText();
-    } else if (other is Robot){
+    } else if (other is Zombie){
       animation = null;
     }
   }

@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:first_app_flutter/game/components/components.dart';
 import 'package:first_app_flutter/game/utils/AudioManager.dart';
+import 'package:first_app_flutter/game/utils/heroes_sprite_preloader.dart';
+import 'package:first_app_flutter/game/utils/zombie_sprite_preloader.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -19,6 +21,7 @@ class SurvivalGame extends FlameGame
   bool endOfGame = false;
   Vector2 playerPosition = Vector2.zero();
 
+
   SurvivalGame()
       : super(
           children: [
@@ -28,11 +31,15 @@ class SurvivalGame extends FlameGame
           ],
         );
 
+
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
 
-    add(Player(size / 2));
+    HeroesSpritePreloader heroesSpritePreloader = HeroesSpritePreloader(game: this);
+    heroesSpritePreloader.preloadAnimations(4);
+    add(Player(size / 2, heroesSpritePreloader));
 
     final screenSize = size;
     final relativeX = 300.0; //TODO : position relative?
@@ -40,7 +47,9 @@ class SurvivalGame extends FlameGame
 
     createInfoComponent(relativeX, relativeY);
 
-    createWave();
+    ZombieSpritePreloader zombieSpritePreloader = ZombieSpritePreloader(game: this);
+    zombieSpritePreloader.preloadAnimations(4);
+    createWave(zombieSpritePreloader);
 
     // add Text Component
     add(infoComponent);
@@ -48,12 +57,12 @@ class SurvivalGame extends FlameGame
     AudioManager().preloadSounds();
   }
 
-  void createWave() {
+  void createWave(ZombieSpritePreloader zombieSpritePreloader) {
     print('launch wave!');
     for(int i = 0; i < wave; i++){
       double x = Random().nextDouble() * 200;
       double y = Random().nextDouble() * 200;
-      add(Robot("leZombie", Vector2(computeStartX(x), computeStartY(y))));
+      add(Zombie("leZombie", Vector2(computeStartX(x), computeStartY(y)), zombieSpritePreloader));
     }
     wave = wave * 2;
   }
@@ -104,15 +113,15 @@ class SurvivalGame extends FlameGame
     }
   }
 
-  void evalNextWave(){
+  void evalNextWave(ZombieSpritePreloader zombieSpritePreloader){
     if(!hasRobot()){
-      createWave();
+      createWave(zombieSpritePreloader);
     }
   }
 
   bool hasRobot(){
     for(Component component in children){
-      if(component is Robot && !component.isReallyDead){
+      if(component is Zombie && !component.isReallyDead){
         return true;
       }
     }

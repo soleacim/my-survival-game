@@ -1,9 +1,9 @@
-import 'package:first_app_flutter/game/components/robot.dart';
+import 'package:first_app_flutter/game/components/components.dart';
 import 'package:first_app_flutter/game/utils/AudioManager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
-import 'package:flame_audio/flame_audio.dart';
+import 'package:flame/src/game/notifying_vector2.dart';
 
 class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
   static const _spriteBullet = 'bullet.png';
@@ -40,7 +40,7 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Robot){
+    if (other is Zombie){
       super.removeFromParent();
     }
   }
@@ -49,7 +49,24 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   void update(double dt) {
     super.update(dt);
     // Mise à jour de la position de l'objet en fonction de sa vélocité
-    position += _bulletDirection * 10;
+    position += _bulletDirection * 20;
+
+    if (isOffScreen(position)) {
+      super.removeFromParent();
+    }
+  }
+
+  bool isOffScreen(NotifyingVector2 position) {
+    if(position.x < 0){
+      return true;
+    } else if(position.x > 2000){
+      return true;
+    } else if(position.y < 0){
+      return true;
+    } else if(position.y > 2000){
+      return true;
+    }
+    return false;
   }
 
   // @override
