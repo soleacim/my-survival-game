@@ -3,21 +3,21 @@ import 'package:first_app_flutter/game/utils/AudioManager.dart';
 import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
-import 'package:flame/src/game/notifying_vector2.dart';
 
 class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
   static const _spriteBullet = 'bullet.png';
-  Vector2 _bulletDirection = Vector2.zero();
+  Vector2 _bulletDirection;
+  Vector2 positionInitial;
 
   Bullet(Vector2 positionOrigin, Vector2 directionOrigin, double angleOrigin)
       :
-        _bulletDirection = Vector2(directionOrigin.x, directionOrigin.y),
+        _bulletDirection = directionOrigin,
+        positionInitial = positionOrigin,
         super(
         angle: angleOrigin,
         position: positionOrigin,
         size: Vector2(20, 20),
-      )
-  ;
+      );
 
   @override
   Future<void> onLoad() async {
@@ -40,7 +40,7 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Zombie){
+    if (other is! Player){
       super.removeFromParent();
     }
   }
@@ -51,23 +51,26 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
     // Mise à jour de la position de l'objet en fonction de sa vélocité
     position += _bulletDirection * 20;
 
-    if (isOffScreen(position)) {
+    // if (isOffScreen(position)) {
+    //   super.removeFromParent();
+    // }
+    if(position.distanceTo(positionInitial) > 1000){
       super.removeFromParent();
     }
   }
 
-  bool isOffScreen(NotifyingVector2 position) {
-    if(position.x < 0){
-      return true;
-    } else if(position.x > 2000){
-      return true;
-    } else if(position.y < 0){
-      return true;
-    } else if(position.y > 2000){
-      return true;
-    }
-    return false;
-  }
+  // bool isOffScreen(Vector2 position) {
+  //   if(position.x < 0){
+  //     return true;
+  //   } else if(position.x > gameRef.size.x){
+  //     return true;
+  //   } else if(position.y < 0){
+  //     return true;
+  //   } else if(position.y > gameRef.size.y){
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   // @override
   // void onCollisionEnd(PositionComponent other) {

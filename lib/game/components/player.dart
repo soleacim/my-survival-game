@@ -1,14 +1,11 @@
-import 'dart:developer';
+import 'dart:math' as math;
 
-import 'package:first_app_flutter/game/components/bullet.dart';
 import 'package:first_app_flutter/game/components/components.dart';
 import 'package:first_app_flutter/game/game.dart';
 import 'package:first_app_flutter/game/utils/heroes_sprite_preloader.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'dart:math' as math;
-import 'gun.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
