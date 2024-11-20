@@ -31,7 +31,7 @@ class Player extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
 
-    goDown();
+    initPosition();
 
     size = Vector2.all(40);
 
@@ -108,6 +108,20 @@ class Player extends SpriteAnimationComponent
         },
       ),
     );
+  }
+
+  void initPosition() async{
+    bool success = false;
+    int attempt = 0;
+    int maxRetries = 3;
+    while (attempt < maxRetries && !success) {
+      animation = heroesSpritePreloader.getAnimationForLine(0);
+      if(animation != null){
+        success = true;
+      }else{
+        await Future.delayed(const Duration(seconds: 1));
+      }
+    }
   }
 
   void goDown() {
