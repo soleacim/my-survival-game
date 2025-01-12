@@ -1,6 +1,6 @@
-# first_app_flutter
+# Survival Game
 
-A new Flutter project.
+A Flutter Game project with 2D animation.
 
 ## Getting Started
 
