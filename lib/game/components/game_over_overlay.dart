@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:first_app_flutter/game/game.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +23,7 @@ class GameOverOverlay extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              game.detach();
+              exit(0);
             },
             child: const Text('Quitter'),
           ),

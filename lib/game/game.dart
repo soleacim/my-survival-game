@@ -37,6 +37,8 @@ class SurvivalGame extends FlameGame
   Future<void> onLoad() async {
     super.onLoad();
 
+    add(FpsTextComponent(position: Vector2(10, 10)));
+
     HeroesSpritePreloader heroesSpritePreloader = HeroesSpritePreloader(game: this);
     heroesSpritePreloader.preloadAnimations(4);
     add(Player(size / 2, heroesSpritePreloader));
@@ -64,7 +66,10 @@ class SurvivalGame extends FlameGame
       double y = Random().nextDouble() * 200;
       add(Zombie("leZombie", Vector2(computeStartX(x), computeStartY(y)), zombieSpritePreloader));
     }
-    wave = wave * 2;
+    if(wave < 8){
+      wave = wave * 2;
+    }
+
   }
 
   void createInfoComponent(double relativeX, double relativeY) {

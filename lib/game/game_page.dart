@@ -16,8 +16,11 @@ class GamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GameWidget<SurvivalGame>.controlled(
-      gameFactory: SurvivalGame.new,
-
+      gameFactory: () {
+        final game = SurvivalGame();
+        game.debugMode = true; // 👈 Active l'affichage des FPS, composants, etc.
+        return game;
+      },
       overlayBuilderMap: {
         'GameOver': (context, game) {
           return GameOverOverlay(game: game);
