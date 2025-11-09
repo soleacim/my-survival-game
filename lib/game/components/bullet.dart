@@ -49,32 +49,11 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
   void update(double dt) {
     super.update(dt);
     // Mise à jour de la position de l'objet en fonction de sa vélocité
-    position += _bulletDirection * 20;
+    position += _bulletDirection * 10;
 
-    // if (isOffScreen(position)) {
-    //   super.removeFromParent();
-    // }
     if(position.distanceTo(positionInitial) > 1000){
       super.removeFromParent();
     }
   }
 
-  // bool isOffScreen(Vector2 position) {
-  //   if(position.x < 0){
-  //     return true;
-  //   } else if(position.x > gameRef.size.x){
-  //     return true;
-  //   } else if(position.y < 0){
-  //     return true;
-  //   } else if(position.y > gameRef.size.y){
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // @override
-  // void onCollisionEnd(PositionComponent other) {
-  //   super.onCollisionEnd(other);
-  //   print('Fin de la collision avec $other');
-  // }
 }

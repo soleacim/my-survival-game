@@ -19,7 +19,7 @@ class GameOverOverlay extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Réessayer'),
+            child: const Text('Ré-essayer'),
           ),
           TextButton(
             onPressed: () {

@@ -31,7 +31,7 @@ class ZombieSpritePreloader {
       _spriteMecha,
       SpriteAnimationData.sequenced(
         amount: 4, // Nombre de frames
-        stepTime: 0.1, // Temps entre les frames
+        stepTime: 0.3, // Temps entre les frames
         textureSize: Vector2(65, 65),
         amountPerRow: 4,
         texturePosition: Vector2(0, line * 65),

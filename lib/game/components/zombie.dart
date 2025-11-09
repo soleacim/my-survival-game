@@ -71,7 +71,7 @@ class Zombie extends SpriteAnimationComponent
     if(gameRef.endOfGame){
       return;
     }
-    super.update(dt);
+    super.update(dt * 0.5);
 
     if(isfocus){
       _direction = computeDirection(position, (gameRef.playerPosition + Vector2(-60, -60)));

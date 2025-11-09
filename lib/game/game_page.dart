@@ -25,6 +25,11 @@ class GamePage extends StatelessWidget {
         'GameOver': (context, game) {
           return GameOverOverlay(game: game);
         },
+        'Performance': (context, game) => const Positioned(
+          top: 0,
+          left: 0,
+          child: PerformanceOverlay(),
+        ),
       },
     );
   }

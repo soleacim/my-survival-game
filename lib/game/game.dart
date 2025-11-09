@@ -38,6 +38,7 @@ class SurvivalGame extends FlameGame
     super.onLoad();
 
     add(FpsTextComponent(position: Vector2(10, 10)));
+    //overlays.add('Performance');
 
     HeroesSpritePreloader heroesSpritePreloader = HeroesSpritePreloader(game: this);
     heroesSpritePreloader.preloadAnimations(4);
@@ -66,10 +67,9 @@ class SurvivalGame extends FlameGame
       double y = Random().nextDouble() * 200;
       add(Zombie("leZombie", Vector2(computeStartX(x), computeStartY(y)), zombieSpritePreloader));
     }
-    if(wave < 8){
+    if(wave < 4){
       wave = wave * 2;
     }
-
   }
 
   void createInfoComponent(double relativeX, double relativeY) {

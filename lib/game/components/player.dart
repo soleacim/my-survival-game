@@ -143,7 +143,7 @@ class Player extends SpriteAnimationComponent
 
   @override
   void update(double dt) {
-    super.update(dt);
+    super.update(dt * 0.5);
 
     var diff = _direction * _speed * dt;
     var tmp = position + diff;
