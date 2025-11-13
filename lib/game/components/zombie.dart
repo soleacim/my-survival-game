@@ -104,6 +104,7 @@ class Zombie extends SpriteAnimationComponent
 
     if(other is Player){
       isfocus = false;
+      other.isDead = true;
       gameRef.finishGame(other.position);
     }
   }

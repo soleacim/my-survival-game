@@ -11,6 +11,7 @@ class Player extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
 
   HeroesSpritePreloader heroesSpritePreloader;
+  bool isDead = false;
 
   Player(Vector2 myposition, HeroesSpritePreloader heroesSpritePreloaderOrigin)
       : heroesSpritePreloader = heroesSpritePreloaderOrigin,
@@ -125,19 +126,27 @@ class Player extends SpriteAnimationComponent
   }
 
   void goDown() {
-    animation = heroesSpritePreloader.getAnimationForLine(0);
+    if(!isDead){
+      animation = heroesSpritePreloader.getAnimationForLine(0);
+    }
   }
 
   void goLeft() {
-    animation = heroesSpritePreloader.getAnimationForLine(1);
+    if(!isDead) {
+      animation = heroesSpritePreloader.getAnimationForLine(1);
+    }
   }
 
   void goRight() {
-    animation = heroesSpritePreloader.getAnimationForLine(2);
+    if(!isDead) {
+      animation = heroesSpritePreloader.getAnimationForLine(2);
+    }
   }
 
   void goUp() {
-    animation = heroesSpritePreloader.getAnimationForLine(3);
+    if(!isDead) {
+      animation = heroesSpritePreloader.getAnimationForLine(3);
+    }
   }
 
 
