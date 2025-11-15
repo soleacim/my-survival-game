@@ -9,7 +9,7 @@ class Sword extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCall
   Sword(Vector2 position)
       : super(
     position: position,
-    size: Vector2(50, 50),
+    size: Vector2(30, 30),
   );
 
   @override

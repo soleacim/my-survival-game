@@ -28,7 +28,7 @@ class SurvivalGame extends FlameGame
             Background(),
             Gun(Vector2(500,500)),
             Gun(Vector2(800,500)),
-            Sword(Vector2(600,800)),
+            Sword(Vector2(1000,500)),
           ],
         );
 
