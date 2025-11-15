@@ -18,7 +18,7 @@ class GamePage extends StatelessWidget {
     return GameWidget<SurvivalGame>.controlled(
       gameFactory: () {
         final game = SurvivalGame();
-        game.debugMode = true; // 👈 Active l'affichage des FPS, composants, etc.
+        //game.debugMode = true; // 👈 Active l'affichage des FPS, composants, etc.
         return game;
       },
       overlayBuilderMap: {
