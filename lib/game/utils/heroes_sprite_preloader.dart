@@ -31,7 +31,7 @@ class HeroesSpritePreloader {
       _sprite_hero,
       SpriteAnimationData.sequenced(
           amount: 4, // Nombre de frames
-          stepTime: 0.3, // Temps entre les frames
+          stepTime: 0.1, // Temps entre les frames
           textureSize: Vector2(65, 65),
           amountPerRow: 4,
           texturePosition: Vector2(20, line * 65),

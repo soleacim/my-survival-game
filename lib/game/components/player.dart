@@ -12,6 +12,7 @@ class Player extends SpriteAnimationComponent
 
   HeroesSpritePreloader heroesSpritePreloader;
   bool isDead = false;
+  final Set<LogicalKeyboardKey> pressedKeys = {};
 
   Player(Vector2 myposition, HeroesSpritePreloader heroesSpritePreloaderOrigin)
       : heroesSpritePreloader = heroesSpritePreloaderOrigin,
@@ -47,18 +48,22 @@ class Player extends SpriteAnimationComponent
       KeyboardListenerComponent(
         keyUp: {
           LogicalKeyboardKey.arrowLeft: (_) {
+            pressedKeys.remove(LogicalKeyboardKey.arrowLeft);
             _direction.x = 0;
             return false;
           },
           LogicalKeyboardKey.arrowRight: (_) {
+            pressedKeys.remove(LogicalKeyboardKey.arrowRight);
             _direction.x = 0;
             return false;
           },
           LogicalKeyboardKey.arrowUp: (_) {
+            pressedKeys.remove(LogicalKeyboardKey.arrowUp);
             _direction.y = 0;
             return false;
           },
           LogicalKeyboardKey.arrowDown: (_) {
+            pressedKeys.remove(LogicalKeyboardKey.arrowDown);
             _direction.y = 0;
             return false;
           },
@@ -79,6 +84,8 @@ class Player extends SpriteAnimationComponent
         },
         keyDown: {
           LogicalKeyboardKey.arrowLeft: (_) {
+            if (pressedKeys.contains(LogicalKeyboardKey.arrowLeft)) return false;
+            pressedKeys.add(LogicalKeyboardKey.arrowLeft);
             _direction.x = -1;
             lastDirection = Vector2(-1, 0);
             bulletAngle = 3 * math.pi / 2;
@@ -86,6 +93,8 @@ class Player extends SpriteAnimationComponent
             return false;
           },
           LogicalKeyboardKey.arrowRight: (_) {
+            if (pressedKeys.contains(LogicalKeyboardKey.arrowRight)) return false;
+            pressedKeys.add(LogicalKeyboardKey.arrowRight);
             _direction.x = 1;
             lastDirection = Vector2(1, 0);
             bulletAngle = math.pi / 2;
@@ -93,6 +102,8 @@ class Player extends SpriteAnimationComponent
             return false;
           },
           LogicalKeyboardKey.arrowUp: (_) {
+            if (pressedKeys.contains(LogicalKeyboardKey.arrowUp)) return false;
+            pressedKeys.add(LogicalKeyboardKey.arrowUp);
             _direction.y = -1;
             lastDirection = Vector2(0, -1);
             bulletAngle = 0;
@@ -100,6 +111,8 @@ class Player extends SpriteAnimationComponent
             return false;
           },
           LogicalKeyboardKey.arrowDown: (_) {
+            if (pressedKeys.contains(LogicalKeyboardKey.arrowDown)) return false;
+            pressedKeys.add(LogicalKeyboardKey.arrowDown);
             _direction.y = 1;
             lastDirection = Vector2(0, 1);
             bulletAngle = math.pi;

@@ -11,11 +11,11 @@ class Bullet extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCal
 
   Bullet(Vector2 positionOrigin, Vector2 directionOrigin, double angleOrigin)
       :
-        _bulletDirection = directionOrigin,
-        positionInitial = positionOrigin,
+        _bulletDirection = Vector2.copy(directionOrigin),
+        positionInitial = Vector2.copy(positionOrigin),
         super(
         angle: angleOrigin,
-        position: positionOrigin,
+        position: Vector2.copy(positionOrigin),
         size: Vector2(20, 20),
       );
 
