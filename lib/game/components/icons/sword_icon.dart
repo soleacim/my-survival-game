@@ -3,10 +3,10 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
 
-class Sword extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
+class SwordIcon extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
   static const _spriteSword = 'sword.png';
 
-  Sword(Vector2 position)
+  SwordIcon(Vector2 position)
       : super(
     position: position,
     size: Vector2(30, 30),

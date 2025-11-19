@@ -3,10 +3,10 @@ import 'package:flame/components.dart';
 import 'package:flame/collisions.dart';
 import 'package:first_app_flutter/game/game.dart';
 
-class Gun extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
+class GunIcon extends SpriteComponent with HasGameRef<SurvivalGame>, CollisionCallbacks {
   static const _spriteGun = 'pistolet.png';
 
-  Gun(Vector2 position)
+  GunIcon(Vector2 position)
       : super(
     position: position,
     size: Vector2(50, 50),

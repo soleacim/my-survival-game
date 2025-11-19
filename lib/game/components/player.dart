@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:first_app_flutter/game/components/components.dart';
+import 'package:first_app_flutter/game/components/weapons/weapon.dart';
 import 'package:first_app_flutter/game/game.dart';
 import 'package:first_app_flutter/game/utils/heroes_sprite_preloader.dart';
 import 'package:flame/collisions.dart';
@@ -13,6 +14,8 @@ class Player extends SpriteAnimationComponent
   HeroesSpritePreloader heroesSpritePreloader;
   bool isDead = false;
   final Set<LogicalKeyboardKey> pressedKeys = {};
+  Set<Weapon> weapons = {};
+  Weapon? currentWeapon;
 
   Player(Vector2 myposition, HeroesSpritePreloader heroesSpritePreloaderOrigin)
       : heroesSpritePreloader = heroesSpritePreloaderOrigin,
@@ -193,7 +196,7 @@ class Player extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     //print('Collision détectée avec $other');
-    if(other is Gun){
+    if(other is GunIcon){
       gameRef.bullets = 50;
       gameRef.updateText();
     } else if (other is Zombie){

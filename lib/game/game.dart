@@ -26,9 +26,9 @@ class SurvivalGame extends FlameGame
       : super(
           children: [
             Background(),
-            Gun(Vector2(500,500)),
-            Gun(Vector2(800,500)),
-            Sword(Vector2(1000,500)),
+            GunIcon(Vector2(500,500)),
+            GunIcon(Vector2(800,500)),
+            SwordIcon(Vector2(1000,500)),
           ],
         );
 

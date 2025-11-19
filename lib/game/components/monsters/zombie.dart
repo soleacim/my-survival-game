@@ -6,7 +6,7 @@ import 'package:first_app_flutter/game/utils/zombie_sprite_preloader.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-import 'blood.dart';
+import '../animations/blood.dart';
 
 class Zombie extends SpriteAnimationComponent
     with HasGameRef<SurvivalGame>, CollisionCallbacks {
