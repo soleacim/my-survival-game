@@ -9,6 +9,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'RightPanel.dart';
 
 class SurvivalGame extends FlameGame
     with HasKeyboardHandlerComponents, HasCollisionDetection {
@@ -38,6 +39,15 @@ class SurvivalGame extends FlameGame
   Future<void> onLoad() async {
     super.onLoad();
 
+    final sprite = await loadSprite('empty.jpeg');
+
+    add(
+      RightPanel(
+        label: 'Label',
+        iconSprite: sprite,
+      ),
+    );
+
     add(FpsTextComponent(position: Vector2(10, 10)));
     //overlays.add('Performance');
 
@@ -49,7 +59,8 @@ class SurvivalGame extends FlameGame
     final relativeX = 300.0; //TODO : position relative?
     final relativeY = screenSize.y - 100;
 
-    createInfoComponent(relativeX, relativeY);
+    createInfoComponent('Bullets : $bullets', relativeX, relativeY);
+    createInfoComponent('Score : $score', relativeX, relativeY);
 
     ZombieSpritePreloader zombieSpritePreloader = ZombieSpritePreloader(game: this);
     zombieSpritePreloader.preloadAnimations(4);
@@ -73,9 +84,9 @@ class SurvivalGame extends FlameGame
     }
   }
 
-  void createInfoComponent(double relativeX, double relativeY) {
+  void createInfoComponent(String myText, double relativeX, double relativeY) {
     infoComponent = TextComponent(
-      text: 'Bullets : $bullets, Score : $score',
+      text: myText,
       position: Vector2(relativeX, relativeY),
       textRenderer: TextPaint(
         style: TextStyle(
